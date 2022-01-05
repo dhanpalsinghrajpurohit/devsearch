@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Project
 from .forms import ProjectForm
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 from django.http import HttpResponse,request
 
@@ -21,6 +22,8 @@ projectsList = [
             'description': 'Fully function ecommerce website'
         }
     ]
+
+@login_required(login_url='login')
 def project(request):
     projects = Project.objects.all()
     msg = "Hello, You are on the project page."
@@ -28,16 +31,15 @@ def project(request):
     context = {'projects' :projects}
     return render(request, 'projects/projects.html', context)
 
-
+@login_required(login_url='login')
 def single_project(request,pk):
     projectObj = Project.objects.get(id=pk)
-
     print(projectObj.featured_image)
     tags = projectObj.tags.all()
     print('projectObj', projectObj)
     return render(request,'projects/single_project.html',{'projects':projectObj,'tags':tags})
 
-
+@login_required(login_url='login')
 def createProject(request):
     form = ProjectForm()
     if request.method == 'POST':
@@ -49,7 +51,7 @@ def createProject(request):
     context = {'form':form}
     return render(request, "projects/project_form.html", context)
 
-
+@login_required(login_url='login')
 def updateproject(request,pk):
     project = Project.objects.get(id=pk)
     form = ProjectForm(instance=project)
@@ -61,6 +63,7 @@ def updateproject(request,pk):
     context = {'form':form}
     return render(request, "projects/project_form.html", context)
 
+@login_required(login_url='login')
 def deleteproject(request,pk):
     project = Project.objects.get(id=pk)
     if request.method == "POST":
