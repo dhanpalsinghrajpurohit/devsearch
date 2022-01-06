@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from .models import Project,Tag
-from .forms import ProjectForm
+from .forms import ProjectForm,ReviewForm
 from django.contrib.auth.decorators import login_required
-from .utils import searchProject
+from .utils import searchProject,paginateProject
+from django.contrib import messages
 # Create your views here.
 from django.http import HttpResponse,request
 
@@ -23,24 +24,36 @@ projectsList = [
             'description': 'Fully function ecommerce website'
         }
     ]
+# @login_required(login_url='login')
+# def projects(request):
+#     projects, search_query = searchProject(request)
+#     custom_range, projects = paginateProject(request, projects, 3)
+#     context = {'projects': projects, 'search_query': search_query, 'custom_range': custom_range}
+#     return render(request, 'projects/projects.html', context)
 
 
-@login_required(login_url='login')
 def project(request):
     projects, search_query = searchProject(request)
-    # msg = "Hello, You are on the project page."
-    # number = 5
-    context = {'projects' :projects}
+    custom_range, projects = paginateProject(request, projects, 3)
+    context = {'projects': projects, 'search_query': search_query, 'custom_range': custom_range}
     return render(request, 'projects/projects.html', context)
 
 
 @login_required(login_url='login')
-def single_project(request,pk):
+def single_project(request, pk):
     projectObj = Project.objects.get(id=pk)
-    print(projectObj.featured_image)
     tags = projectObj.tags.all()
-    print('projectObj', projectObj)
-    return render(request,'projects/single_project.html',{'projects':projectObj,'tags':tags})
+    form = ReviewForm()
+    if request.method == "POST":
+        form = ReviewForm(request.POST)
+        review = form.save(commit=False)
+        review.project = projectObj
+        review.owner = request.user.profile
+        review.save()
+        projectObj.getVoteCount
+        messages.success(request, "your review is successfully submitted.")
+        return redirect('project', pk=projectObj.id)
+    return render(request, 'projects/single_project.html', {'projects': projectObj, 'tags': tags,'form': form})
 
 
 @login_required(login_url='login')
