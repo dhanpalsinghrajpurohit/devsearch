@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-*h==e!&es!&^w7y)wm3no7ghv+n@=3xg7da=^+4or31!brdo1w
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['devsearch-dhanpal.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1','localhost','devsearch-dhanpal.herokuapp.com']
 
 
 # Application definition
@@ -176,7 +176,7 @@ EMAIL_HOST_PASSWORD = ''
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
-
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 STATIC_URL = '/static/'
 MEDIA_URL  = ''
 STATICFILES_DIRS = [
