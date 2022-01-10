@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-*h==e!&es!&^w7y)wm3no7ghv+n@=3xg7da=^+4or31!brdo1w
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['devsearch-dhanpal.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1','localhost','devsearch-dhanpal.herokuapp.com']
 
 
 # Application definition
@@ -86,9 +86,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     "corsheaders.middleware.CorsMiddleware",
-
 ]
 
 ROOT_URLCONF = 'devsearch.urls'
@@ -171,20 +171,21 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = "dhanpal.singh.rajpurohit09@gmail.com"
+EMAIL_HOST_USER = ""
 EMAIL_HOST_PASSWORD = ''
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
-
+WHITENOISE_USE_FINDERS = True
 STATIC_URL = '/static/'
-MEDIA_URL  = ''
+MEDIA_URL = 'static/images/'
+
 STATICFILES_DIRS = [
-    BASE_DIR / "static"
+    BASE_DIR / 'static'
 ]
 
-MEDIA_ROOT = os.path.join(BASE_DIR,'static/images')
-STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -193,4 +194,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 if os.getcwd() == '/app':
     DEBUG = False
+
+
 
