@@ -176,8 +176,9 @@ EMAIL_HOST_PASSWORD = ''
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
+WHITENOISE_USE_FINDERS = True
 STATIC_URL = '/static/'
-MEDIA_URL = '/images/'
+MEDIA_URL = 'static/images/'
 
 STATICFILES_DIRS = [
     BASE_DIR / 'static'
